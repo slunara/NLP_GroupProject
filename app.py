@@ -31,11 +31,11 @@ def index_documents():
     index_dir = './tmp/myindex'
     docs_folder = './doc/'
 
-    # Clear existing index if needed
+    # Clear existing index directory if it exists
     if os.path.exists(index_dir):
-        shutil.rmtree(index_dir)
+        shutil.rmtree(index_dir)  # Deletes the directory and its contents
 
-    os.makedirs(index_dir, exist_ok=True)
+    os.makedirs(index_dir, exist_ok=True)  # Recreate the directory
     text.SimpleQA.initialize_index(index_dir)
 
     text.SimpleQA.index_from_folder(
@@ -45,6 +45,7 @@ def index_documents():
         commit_every=1             
     )
     return index_dir
+
 
 def load_qa_model():
     """Initialize and load the SimpleQA model."""
