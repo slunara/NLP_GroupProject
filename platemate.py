@@ -12,6 +12,9 @@ class DummyBar:
 
 MasterBar = ProgressBar = DummyBar
 
+print(f"MasterBar overridden: {MasterBar == DummyBar}")
+print(f"ProgressBar overridden: {ProgressBar == DummyBar}")
+
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"  # Suppress TensorFlow logs
 
