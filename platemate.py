@@ -5,14 +5,18 @@ from ktrain import text
 import re
 import shutil
 import time
-import ktrain
 from fastprogress import fastprogress
 
 # Suppress fastprogress display
 fastprogress.NO_BAR = True
 fastprogress.NO_BAR_AUTO = True
 
-ktrain.config.set_logging('WARN')
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # 0 = all messages, 1 = warnings, 2 = errors
+
+import logging
+logging.getLogger("ktrain").setLevel(logging.WARNING)
+
 
 from fastprogress.fastprogress import NO_BAR, NO_BAR_AUTO
 print(f"Progress bars disabled: NO_BAR={NO_BAR}, NO_BAR_AUTO={NO_BAR_AUTO}")
