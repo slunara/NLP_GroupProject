@@ -26,6 +26,7 @@ from transformers import pipeline
 from ktrain import text
 import shutil
 import time
+import re
 
 print("Progress bars are now completely disabled.")
 
