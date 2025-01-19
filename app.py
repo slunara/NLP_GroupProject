@@ -31,18 +31,22 @@ def index_documents():
     index_dir = './tmp/myindex'
     docs_folder = './doc/'
 
-    # Check if the directory exists and remove it if necessary
+    # Check if the directory exists and clear it
     if os.path.exists(index_dir):
         print(f"Clearing existing index directory: {index_dir}")
-        shutil.rmtree(index_dir)  # Delete the directory and its contents
+        try:
+            shutil.rmtree(index_dir)  # Remove the directory and its contents
+        except Exception as e:
+            print(f"Error removing directory {index_dir}: {e}")
+            raise
 
-    # Recreate the directory
+    # Create a new directory
     os.makedirs(index_dir, exist_ok=True)
 
     # Initialize the index
     text.SimpleQA.initialize_index(index_dir)
 
-    # Index documents from the specified folder
+    # Index documents
     text.SimpleQA.index_from_folder(
         docs_folder,
         index_dir=index_dir,
@@ -50,8 +54,9 @@ def index_documents():
         commit_every=1             
     )
 
-    print(f"Documents indexed successfully in: {index_dir}")
+    print(f"Documents successfully indexed in: {index_dir}")
     return index_dir
+
 
 
 
