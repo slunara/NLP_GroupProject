@@ -1,25 +1,30 @@
-from openai import AzureOpenAI
-from transformers import pipeline
-import os
-from ktrain import text
-import re
-import shutil
-import time
-from fastprogress import fastprogress
+from fastprogress.fastprogress import MasterBar, ProgressBar
 
-# Suppress fastprogress display
-fastprogress.NO_BAR = True
-fastprogress.NO_BAR_AUTO = True
+# Patch fastprogress to avoid rendering progress bars
+class DummyBar:
+    def __init__(self, *args, **kwargs): pass
+    def update(self, *args, **kwargs): pass
+    def write(self, *args, **kwargs): pass
+    def on_iter_begin(self, *args, **kwargs): pass
+    def on_iter_end(self, *args, **kwargs): pass
+    def on_update(self, *args, **kwargs): pass
+    def on_interrupt(self, *args, **kwargs): pass
+
+MasterBar = ProgressBar = DummyBar
 
 import os
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # 0 = all messages, 1 = warnings, 2 = errors
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"  # Suppress TensorFlow logs
 
 import logging
 logging.getLogger("ktrain").setLevel(logging.WARNING)
 
+from openai import AzureOpenAI
+from transformers import pipeline
+from ktrain import text
+import shutil
+import time
 
-from fastprogress.fastprogress import NO_BAR, NO_BAR_AUTO
-print(f"Progress bars disabled: NO_BAR={NO_BAR}, NO_BAR_AUTO={NO_BAR_AUTO}")
+print("Progress bars are now completely disabled.")
 
 
 ENDPOINT = "https://GENAISUSANA.openai.azure.com/"
