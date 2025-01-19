@@ -24,7 +24,6 @@ tf-keras==2.15.1
 fsspec==2024.10.0
 
 transformers
-googlesearch-python
 beautifulsoup4
 requests
 sentencepiece
