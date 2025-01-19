@@ -6,29 +6,6 @@ import re
 import shutil
 import time
 
-def index_documents():
-    """Index documents for SimpleQA."""
-    timestamp = int(time.time())
-    index_dir = f'./tmp/myindex_{timestamp}'  # Use unique directory
-    docs_folder = './doc/'
-
-    os.makedirs(index_dir, exist_ok=True)
-    print(f"Using unique index directory: {index_dir}")
-
-    # Initialize and index documents
-    text.SimpleQA.initialize_index(index_dir)
-    text.SimpleQA.index_from_folder(
-        docs_folder,
-        index_dir=index_dir,
-        use_text_extraction=True,
-        commit_every=1
-    )
-
-    print(f"Documents successfully indexed in: {index_dir}")
-    return index_dir
-
-
-
 
 
 ENDPOINT = "https://GENAISUSANA.openai.azure.com/"
