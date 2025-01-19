@@ -29,4 +29,4 @@ beautifulsoup4
 requests
 sentencepiece
 ktrain
-textract
+textract==1.6.3
