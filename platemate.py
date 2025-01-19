@@ -29,15 +29,22 @@ def load_classifier():
 
 def index_documents():
     """Index documents for SimpleQA."""
+    # Use a unique directory for the index
     timestamp = int(time.time())
-    index_dir = f'./tmp/myindex_{timestamp}'  # Use unique directory
+    index_dir = f'./tmp/myindex_{timestamp}'
     docs_folder = './doc/'
 
-    os.makedirs(index_dir, exist_ok=True)
+    # Ensure the directory does not already exist
+    if os.path.exists(index_dir):
+        print(f"Directory {index_dir} exists. Removing it...")
+        shutil.rmtree(index_dir)
+
     print(f"Using unique index directory: {index_dir}")
 
-    # Initialize and index documents
+    # Initialize the index (creates the directory automatically)
     text.SimpleQA.initialize_index(index_dir)
+
+    # Index documents
     text.SimpleQA.index_from_folder(
         docs_folder,
         index_dir=index_dir,
@@ -47,6 +54,7 @@ def index_documents():
 
     print(f"Documents successfully indexed in: {index_dir}")
     return index_dir
+
 
 
 
