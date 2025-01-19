@@ -5,12 +5,17 @@ from ktrain import text
 import re
 import shutil
 import time
+import ktrain
 from fastprogress import fastprogress
 
 # Suppress fastprogress display
 fastprogress.NO_BAR = True
 fastprogress.NO_BAR_AUTO = True
 
+ktrain.config.set_logging('WARN')
+
+from fastprogress.fastprogress import NO_BAR, NO_BAR_AUTO
+print(f"Progress bars disabled: NO_BAR={NO_BAR}, NO_BAR_AUTO={NO_BAR_AUTO}")
 
 
 ENDPOINT = "https://GENAISUSANA.openai.azure.com/"
@@ -54,8 +59,7 @@ def index_documents():
         docs_folder,
         index_dir=index_dir,
         use_text_extraction=True,
-        commit_every=1,
-        verbose=False 
+        commit_every=1
     )
 
     print(f"Documents successfully indexed in: {index_dir}")
@@ -130,7 +134,7 @@ def ask_question(classifier, qa_model, client, question):
         return generate_response(client, conversation_history), "azure"
     else:
         # Get answers from the QA model
-        answers = qa_model.ask(question,verbose=False)
+        answers = qa_model.ask(question)
         if answers:
             full_answer = answers[0]['full_answer']
             extracted_answer = full_answer.split('a :', 1)[-1].strip().lower()
