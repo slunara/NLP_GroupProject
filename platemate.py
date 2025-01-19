@@ -1,6 +1,17 @@
-from fastprogress.fastprogress import MasterBar, ProgressBar
+from fastprogress.fastprogress import MasterBar, ProgressBar, master_bar, progress_bar
 
-# Patch fastprogress to avoid rendering progress bars
+
+def noop(*args, **kwargs):
+    pass
+
+master_bar.update = noop
+master_bar.on_update = noop
+master_bar.show = noop
+progress_bar.update = noop
+progress_bar.on_update = noop
+progress_bar.show = noop
+
+
 class DummyBar:
     def __init__(self, *args, **kwargs): pass
     def update(self, *args, **kwargs): pass
@@ -12,8 +23,6 @@ class DummyBar:
 
 MasterBar = ProgressBar = DummyBar
 
-print(f"MasterBar overridden: {MasterBar == DummyBar}")
-print(f"ProgressBar overridden: {ProgressBar == DummyBar}")
 
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"  # Suppress TensorFlow logs
@@ -28,7 +37,6 @@ import shutil
 import time
 import re
 
-print("Progress bars are now completely disabled.")
 
 
 ENDPOINT = "https://GENAISUSANA.openai.azure.com/"
@@ -59,10 +67,8 @@ def index_documents():
 
     # Ensure the directory does not already exist
     if os.path.exists(index_dir):
-        print(f"Directory {index_dir} exists. Removing it...")
         shutil.rmtree(index_dir)
 
-    print(f"Using unique index directory: {index_dir}")
 
     # Initialize the index (creates the directory automatically)
     text.SimpleQA.initialize_index(index_dir)
@@ -75,13 +81,7 @@ def index_documents():
         commit_every=1
     )
 
-    print(f"Documents successfully indexed in: {index_dir}")
     return index_dir
-
-
-
-
-
 
 def load_qa_model():
     """Initialize and load the SimpleQA model."""
