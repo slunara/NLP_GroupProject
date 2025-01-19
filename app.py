@@ -1,12 +1,11 @@
 from openai import AzureOpenAI
 from transformers import pipeline
 import os
-from dotenv import load_dotenv
 from ktrain import text
 import re
 import shutil
 
-load_dotenv()
+
 
 
 ENDPOINT = "https://GENAISUSANA.openai.azure.com/"
