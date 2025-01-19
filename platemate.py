@@ -130,7 +130,7 @@ def ask_question(classifier, qa_model, client, question):
         return generate_response(client, conversation_history), "azure"
     else:
         # Get answers from the QA model
-        answers = qa_model.ask(question,verbose=False))
+        answers = qa_model.ask(question,verbose=False)
         if answers:
             full_answer = answers[0]['full_answer']
             extracted_answer = full_answer.split('a :', 1)[-1].strip().lower()
