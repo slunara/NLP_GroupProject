@@ -5,6 +5,11 @@ from ktrain import text
 import re
 import shutil
 import time
+from fastprogress import fastprogress
+
+# Suppress fastprogress display
+fastprogress.NO_BAR = True
+fastprogress.NO_BAR_AUTO = True
 
 
 
