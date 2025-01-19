@@ -4,6 +4,29 @@ import os
 from ktrain import text
 import re
 import shutil
+import time
+
+def index_documents():
+    """Index documents for SimpleQA."""
+    timestamp = int(time.time())
+    index_dir = f'./tmp/myindex_{timestamp}'  # Use unique directory
+    docs_folder = './doc/'
+
+    os.makedirs(index_dir, exist_ok=True)
+    print(f"Using unique index directory: {index_dir}")
+
+    # Initialize and index documents
+    text.SimpleQA.initialize_index(index_dir)
+    text.SimpleQA.index_from_folder(
+        docs_folder,
+        index_dir=index_dir,
+        use_text_extraction=True,
+        commit_every=1
+    )
+
+    print(f"Documents successfully indexed in: {index_dir}")
+    return index_dir
+
 
 
 
@@ -26,36 +49,28 @@ def load_classifier():
     """Load the zero-shot classification model."""
     return pipeline("zero-shot-classification", model="microsoft/deberta-large-mnli")
 
+
 def index_documents():
     """Index documents for SimpleQA."""
-    index_dir = './tmp/myindex'
+    timestamp = int(time.time())
+    index_dir = f'./tmp/myindex_{timestamp}'  # Use unique directory
     docs_folder = './doc/'
 
-    # Check if the directory exists and clear it
-    if os.path.exists(index_dir):
-        print(f"Clearing existing index directory: {index_dir}")
-        try:
-            shutil.rmtree(index_dir)  # Remove the directory and its contents
-        except Exception as e:
-            print(f"Error removing directory {index_dir}: {e}")
-            raise
-
-    # Create a new directory
     os.makedirs(index_dir, exist_ok=True)
+    print(f"Using unique index directory: {index_dir}")
 
-    # Initialize the index
+    # Initialize and index documents
     text.SimpleQA.initialize_index(index_dir)
-
-    # Index documents
     text.SimpleQA.index_from_folder(
         docs_folder,
         index_dir=index_dir,
-        use_text_extraction=True,  
-        commit_every=1             
+        use_text_extraction=True,
+        commit_every=1
     )
 
     print(f"Documents successfully indexed in: {index_dir}")
     return index_dir
+
 
 
 
