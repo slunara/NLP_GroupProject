@@ -99,23 +99,10 @@ def classify_query(classifier, user_text):
 def generate_response(client, conversation_history):
     """Generate response using Azure OpenAI."""
     try:
-        # Add context as the system message
-        context_message = {
-            "role": "system",
-            "content": (
-                "You are a multilingual expert waiter assisting customers with menu inquiries. "
-                "Answer questions about the menu in an energetic and respectful tone. "
-                "Provide information only from the data."
-            )
-        }
-
-        # Append the context message to the conversation history
-        conversation_history.insert(0, context_message)
-
         completion = client.chat.completions.create(
             model=DEPLOYMENT_NAME,
             messages=conversation_history,
-            max_tokens=2600,
+            max_tokens=800,
             temperature=0.7,
             top_p=0.95,
             frequency_penalty=0,
@@ -146,7 +133,6 @@ def generate_response(client, conversation_history):
             }
         )
         response_content = completion.choices[0].message.content.strip()
-        # Clean the response
         response_content = re.sub(r'\[doc\d+\]', '', response_content)
         return response_content
     except Exception as e:
